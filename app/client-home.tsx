@@ -59,7 +59,7 @@ export default function ClientHome({
     return () => subscription.unsubscribe();
   }, [supabase.auth]);
 
-  const redirectTo = `${process.env.NEXT_PUBLIC_SITE_URL}/auth/callback`;
+  const redirectTo = `${process.env.NEXT_PUBLIC_SITE_URL}`;
 
   const handleSignIn = async () => {
     const { error } = await supabase.auth.signInWithOAuth({
