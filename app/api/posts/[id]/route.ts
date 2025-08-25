@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { createServerSupabase } from "@/lib/db";
+import { createBrowserSupabaseClient } from "@/lib/db";
 import { updatePostSchema } from "@/lib/validators";
 
 export async function PATCH(
@@ -7,7 +7,7 @@ export async function PATCH(
   { params }: { params: { id: string } }
 ) {
   try {
-    const supabase = createServerSupabase();
+    const supabase = createBrowserSupabaseClient();
     const {
       data: { user },
     } = await supabase.auth.getUser();
@@ -97,7 +97,7 @@ export async function DELETE(
   { params }: { params: { id: string } }
 ) {
   try {
-    const supabase = createServerSupabase();
+    const supabase = createBrowserSupabaseClient();
     const {
       data: { user },
     } = await supabase.auth.getUser();
