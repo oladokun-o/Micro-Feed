@@ -31,5 +31,5 @@ export const middleware = (request: NextRequest) => {
     },
   });
 
-  return supabase;
+  return supabaseResponse;
 };
