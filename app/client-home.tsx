@@ -7,6 +7,7 @@ import { Composer } from "@/components/composer";
 import { Toolbar } from "@/components/toolbar";
 import type { User } from "@supabase/supabase-js";
 import { createBrowserSupabaseClient } from "@/lib/db";
+import { cookies } from "next/headers";
 
 interface ClientHomeProps {
   user: User | null;
@@ -20,7 +21,7 @@ export default function ClientHome({
   const [localPosts, setLocalPosts] = useState(initialPosts);
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
-  const supabase = createBrowserSupabaseClient();
+  const supabase = createBrowserSupabaseClient(cookies);
 
   const {
     posts,
