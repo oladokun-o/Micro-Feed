@@ -6,7 +6,7 @@ const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY!;
 
 // Create a Supabase client for the browser
-const createBrowserSupabaseClient = (cookies: any) => createBrowserClient(supabaseUrl!, supabaseKey!, { cookies });
+const createBrowserSupabaseClient = (cookies?: any) => createBrowserClient(supabaseUrl!, supabaseKey!, { cookies });
 
 // Create a Supabase client for the server
 const createServerSupabaseClient = (cookieStore: ReturnType<typeof cookies>) => {
