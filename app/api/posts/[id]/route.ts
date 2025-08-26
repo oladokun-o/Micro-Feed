@@ -1,13 +1,14 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createBrowserSupabaseClient } from "@/lib/db";
 import { updatePostSchema } from "@/lib/validators";
+import { cookies } from "next/headers";
 
 export async function PATCH(
   request: NextRequest,
   { params }: { params: { id: string } }
 ) {
   try {
-    const supabase = createBrowserSupabaseClient();
+    const supabase = createBrowserSupabaseClient(cookies);
     const {
       data: { user },
     } = await supabase.auth.getUser();
@@ -97,7 +98,7 @@ export async function DELETE(
   { params }: { params: { id: string } }
 ) {
   try {
-    const supabase = createBrowserSupabaseClient();
+    const supabase = createBrowserSupabaseClient(cookies);
     const {
       data: { user },
     } = await supabase.auth.getUser();
