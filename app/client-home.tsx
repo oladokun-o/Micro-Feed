@@ -59,14 +59,9 @@ export default function ClientHome({
     return () => subscription.unsubscribe();
   }, [supabase.auth]);
 
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
-
   const handleSignIn = async (provider: "github" | "google" = "github") => {
     const { error } = await supabase.auth.signInWithOAuth({
       provider,
-      options: {
-        redirectTo: `${siteUrl}/auth/callback`,
-      },
     });
     if (error) console.error("Error signing in:", error);
   };
@@ -74,9 +69,6 @@ export default function ClientHome({
   const handleSignInWithEmail = async (email: string) => {
     const { error } = await supabase.auth.signInWithOtp({
       email,
-      options: {
-        emailRedirectTo: `${siteUrl}/auth/callback`,
-      },
     });
 
     if (error) {
