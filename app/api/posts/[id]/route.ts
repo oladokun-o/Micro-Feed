@@ -1,15 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
-import { createServerSupabaseClient } from "@/lib/db";
 import { updatePostSchema } from "@/lib/validators";
-import { cookies } from "next/headers";
+import { getSupabaseServerClient } from "@/utils/supabase/server";
 
 export async function PATCH(
   request: NextRequest,
   { params }: { params: { id: string } }
 ) {
   try {
-    const cookieStore = cookies();
-    const supabase = createServerSupabaseClient(cookieStore);
+    const supabase = getSupabaseServerClient();
     const {
       data: { user },
     } = await supabase.auth.getUser();
@@ -99,8 +97,7 @@ export async function DELETE(
   { params }: { params: { id: string } }
 ) {
   try {
-    const cookieStore = cookies();
-    const supabase = createServerSupabaseClient(cookieStore);
+    const supabase = getSupabaseServerClient();
     const {
       data: { user },
     } = await supabase.auth.getUser();

@@ -1,10 +1,8 @@
-import { cookies } from "next/headers";
-import { createServerSupabaseClient } from "@/lib/db";
 import ClientHome from "./client-home";
+import { getSupabaseServerClient } from "@/utils/supabase/server";
 
 export default async function Page() {
-  const cookieStore = cookies();
-  const supabase = createServerSupabaseClient(cookieStore);
+  const supabase = getSupabaseServerClient();
 
   // Get current user
   const {

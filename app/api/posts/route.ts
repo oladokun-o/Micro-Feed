@@ -1,14 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
-import { createServerSupabaseClient } from "@/lib/db";
 import { createPostSchema, postsQuerySchema } from "@/lib/validators";
 import { encodeCursor, decodeCursor, DEFAULT_LIMIT } from "@/lib/pagination";
 import type { Post, PostsResponse } from "@/types/post";
-import { cookies } from "next/headers";
+import { getSupabaseServerClient } from "@/utils/supabase/server";
 
 export async function GET(request: NextRequest) {
   try {
-    const cookieStore = cookies();
-    const supabase = createServerSupabaseClient(cookieStore);
+    const supabase = getSupabaseServerClient();
     const {
       data: { user },
     } = await supabase.auth.getUser();
@@ -119,8 +117,7 @@ export async function GET(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
   try {
-    const cookieStore = cookies();
-    const supabase = createServerSupabaseClient(cookieStore);
+    const supabase = getSupabaseServerClient();
     const {
       data: { user },
     } = await supabase.auth.getUser();
