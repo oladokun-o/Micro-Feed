@@ -59,11 +59,32 @@ export default function ClientHome({
     return () => subscription.unsubscribe();
   }, [supabase.auth]);
 
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
+
   const handleSignIn = async (provider: "github" | "google" = "github") => {
     const { error } = await supabase.auth.signInWithOAuth({
       provider,
+      options: {
+        redirectTo: `${siteUrl}/auth/callback`,
+      },
     });
     if (error) console.error("Error signing in:", error);
+  };
+
+  const handleSignInWithEmail = async (email: string) => {
+    const { error } = await supabase.auth.signInWithOtp({
+      email,
+      options: {
+        emailRedirectTo: `${siteUrl}/auth/callback`,
+      },
+    });
+
+    if (error) {
+      console.error("Error sending magic link:", error.message);
+      alert(error.message);
+    } else {
+      alert("Check your email for a login link!");
+    }
   };
 
   const handleSignOut = async () => {
@@ -98,6 +119,32 @@ export default function ClientHome({
           </p>
 
           <div className="space-y-3">
+            <div className="w-full">
+              <form
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  const formData = new FormData(e.currentTarget);
+                  const email = formData.get("email") as string;
+                  handleSignInWithEmail(email);
+                }}
+                className="space-y-3"
+              >
+                <input
+                  type="email"
+                  name="email"
+                  placeholder="Enter your email"
+                  required
+                  className="w-full border border-gray-300 rounded-lg px-4 py-3 text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                />
+                <button
+                  type="submit"
+                  className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-4 rounded-lg transition"
+                >
+                  Continue with Email
+                </button>
+              </form>
+            </div>
+
             <button
               onClick={() => handleSignIn("github")}
               className="w-full bg-gray-900 hover:bg-gray-800 text-white font-medium py-3 px-4 rounded-lg transition flex items-center justify-center space-x-2"
